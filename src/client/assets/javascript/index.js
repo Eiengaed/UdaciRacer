@@ -123,7 +123,7 @@ function runRace(raceID) {
 				}catch(err){
 					console.log("Problem: " + err);
 				}
-			}, 2000);
+			}, 500);
 		})
 	
 
