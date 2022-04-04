@@ -83,13 +83,13 @@ async function handleCreateRace() {
 	let trackIdFromStore = store.track_id; 
 	// const race = TODO - invoke the API call to create the race, then save the result - DONE
 const race = await createRace(playerIdFromStore, trackIdFromStore);
-console.log(race);
+
 	// TODO - update the store with the race id - DONE
 	// For the API to work properly, the race id should be race id - 1
 store.race_id = race.ID-1;
 	// The race has been created, now start the countdown
 	// TODO - call the async function runCountdown - DONE
-	console.log("type of " + typeof(store.player_id))
+	
 await runCountdown();
 
 	// TODO - call the async function startRace - DONE
@@ -109,21 +109,17 @@ function runRace(raceID) {
 			try{
 
 				let res = await getRace(raceID);
-				console.log(res)
+				
 				switch(res.status){
 					case "in-progress":
-						renderAt('#leaderBoard', raceProgress(res.positions));
-						console.log();
+						renderAt('#leaderBoard', raceProgress(res.positions));						
 						break;
 					case "finished":
-								console.log("elloo");
 								clearInterval(raceInterval) // to stop the interval from repeating
 								renderAt('#race', resultsView(res.positions)) // to render the results view
 								resolve(res) // resolve the promise
 								break;
 					}
-					
-
 				}catch(err){
 					console.log("Problem: " + err);
 				}
