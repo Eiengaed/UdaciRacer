@@ -1,7 +1,7 @@
 // PROVIDED CODE BELOW (LINES 1 - 80) DO NOT REMOVE
 
 // The store will hold all information needed globally
-let store = {
+const store = {
 	track_id: undefined,
 	player_id: undefined,
 	race_id: undefined,
@@ -78,25 +78,25 @@ async function handleCreateRace() {
 
 	renderAt('#race', renderRaceStartView(store.track_id, store.player_id))
 	
-	// TODO - Get player_id and track_id from the store - DONE
-	let playerIdFromStore = store.player_id;
-	let trackIdFromStore = store.track_id; 
-	// const race = TODO - invoke the API call to create the race, then save the result - DONE
-const race = await createRace(playerIdFromStore, trackIdFromStore);
+	
+	const playerIdFromStore = store.player_id;
+	const trackIdFromStore = store.track_id; 
+	
+	const race = await createRace(playerIdFromStore, trackIdFromStore);
 
-	// TODO - update the store with the race id - DONE
+	
 	// For the API to work properly, the race id should be race id - 1
 store.race_id = race.ID-1;
 	// The race has been created, now start the countdown
-	// TODO - call the async function runCountdown - DONE
+	
 	
 await runCountdown();
 
-	// TODO - call the async function startRace - DONE
+	
 
 startRace(store.race_id);
 
-	// TODO - call the async function runRace - DONE
+	
 runRace(store.race_id);
 }
 
@@ -104,8 +104,8 @@ function runRace(raceID) {
 
 		
 			return new Promise(resolve => {
-	// TODO - use Javascript's built in setInterval method to get race info every 500ms
-		let raceInterval = setInterval(async () => {
+	
+		const raceInterval = setInterval(async () => {
 			try{
 
 				let res = await getRace(raceID);
@@ -125,21 +125,6 @@ function runRace(raceID) {
 				}
 			}, 500);
 		})
-	
-
-	/* 
-		TODO - if the race info status property is "in-progress", update the leaderboard by calling:
-		renderAt('#leaderBoard', raceProgress(res.positions))
-	*/
-				
-	/* 
-		TODO - if the race info status property is "finished", run the following:
-		clearInterval(raceInterval) // to stop the interval from repeating
-		renderAt('#race', resultsView(res.positions)) // to render the results view
-		reslove(res) // resolve the promise	
-	*/
-				
-	// remember to add error handling for the Promise
 }
 
 async function runCountdown() {
@@ -149,7 +134,7 @@ async function runCountdown() {
 		let timer = 3
 
 		return new Promise(resolve => {
-			// TODO - use Javascript's built in setInterval method to count down once per second
+			
 				countDown = setInterval(() => {
 					switch(timer){
 						case 0:
@@ -157,13 +142,10 @@ async function runCountdown() {
 							resolve();
 							break;
 						default:
+							// run this DOM manipulation to decrement the countdown for the user
 							document.getElementById('big-numbers').innerHTML = --timer;
 					}
 				}, 1000);
-			// run this DOM manipulation to decrement the countdown for the user
-			//	document.getElementById('big-numbers').innerHTML = --timer
-			// TODO - if the countdown is done, clear the interval, resolve the promise, and return
-
 		})
 	} catch(error) {
 		console.log(error);
@@ -182,7 +164,6 @@ function handleSelectPodRacer(target) {
 	// add class selected to current target
 	target.classList.add('selected')
 
-	// TODO - save the selected racer to the store
 	store.player_id = parseInt(target.id);
 	
 }
@@ -199,14 +180,13 @@ function handleSelectTrack(target) {
 	// add class selected to current target
 	target.classList.add('selected')
 
-	// TODO - save the selected track id to the store
 	store.track_id = parseInt(target.id);
 	
 }
 
 function handleAccelerate() {
 	console.log("accelerate button clicked")
-	// TODO - Invoke the API call to accelerate
+
 	let raceIdFromStore = store.race_id;
 	accelerate(raceIdFromStore);
 }
@@ -311,7 +291,7 @@ function resultsView(positions) {
 }
 
 function raceProgress(positions) {
-	let userPlayer = positions.find(e => e.id === store.player_id)
+	const userPlayer = positions.find(e => e.id === store.player_id)
 	
 	userPlayer.driver_name += " (you)"
 	
